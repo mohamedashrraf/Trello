@@ -2,7 +2,10 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import styles from "./Login.module.css";
 import useApi from "../../../hooks/api";
+import { Fragment } from "react";
+import Link from "next/link";
 export default function Login() {
   const api = useApi();
   const initialValues = {
@@ -46,63 +49,78 @@ export default function Login() {
     formik.touched.password = false;
   }, []);
   return (
-    <main>
-      <form
-        onSubmit={(e) => {
-          console.log(formik.touched);
-          formik.handleSubmit(e);
-        }}
-      >
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Email address
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            name="email"
-            aria-describedby="emailHelp"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onFocus={() => {
-              formik.touched.email = true;
-            }}
-          />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
-          <div>
-            {formik.touched?.email && formik.errors?.email && (
-              <p>{formik.errors?.email}</p>
-            )}
+    <Fragment>
+      <div className={styles.body}>
+        <div className="container">
+          <div className={styles.center}>
+            <h1>Login</h1>
+            <form
+              className={styles.newForm}
+              onSubmit={(e) => {
+                console.log(formik.touched);
+                formik.handleSubmit(e);
+              }}
+            >
+              <div className={styles.txt_field}>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  name="email"
+                  aria-describedby="emailHelp"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onFocus={() => {
+                    formik.touched.email = true;
+                  }}
+                />
+                <span></span>
+                <label htmlFor="exampleInputEmail1" className="form-label">
+                  Email address
+                </label>
+                <div>
+                  {formik.touched?.email && formik.errors?.email && (
+                    <p className="text-danger">{formik.errors?.email}</p>
+                  )}
+                </div>
+              </div>
+              <div className={styles.txt_field}>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="exampleInputPassword1"
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onFocus={() => {
+                    formik.touched.password = true;
+                  }}
+                />
+                <span></span>
+                <label htmlFor="exampleInputPassword1" className="form-label">
+                  Password
+                </label>
+                <div>
+                  {formik.touched?.password && <p>{formik.errors?.password}</p>}
+                </div>
+              </div>
+              <div>
+                <input
+                  name="submit"
+                  type="Submit"
+                  className={styles.sub}
+                  defaultValue="Login"
+                />
+              </div>
+              <div>
+                <div className={styles.signup_link}>
+                  Not a Member ? <Link href="/signup">Signup</Link>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-
-        <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="exampleInputPassword1"
-            name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onFocus={() => {
-              formik.touched.password = true;
-            }}
-          />
-          <div>
-            {formik.touched?.password && <p>{formik.errors?.password}</p>}
-          </div>
-        </div>
-
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
-    </main>
+      </div>
+    </Fragment>
   );
 }
