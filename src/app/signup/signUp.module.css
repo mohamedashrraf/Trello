@@ -1,18 +1,17 @@
 .body{
-  
     margin: 0;
     padding: 0;
     font-family: Roboto;
     background-repeat: no-repeat;
     background-size: cover;
     background: linear-gradient(120deg, #007bff, #d0314c);
-    height: 120vh;
+    height: 150vh;
     overflow: hidden;
   }
   
   .center{
     position: absolute;
-    top: 70%;
+    top: 83%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 29vw;
@@ -71,7 +70,7 @@
   .txt_field input:focus ~ label,
   .txt_field input:valid ~ label{
     top: -5px;
-    color: #2691d9;
+    color: #666;
   }
   
   .txt_field input:focus ~ span::before,
