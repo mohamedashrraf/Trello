@@ -5,7 +5,7 @@ export const tsakesSlice = createSlice({
     initialState: {
       value: 0,
     },reducers:{
-      set
+      
 
     }})
  export const {  } = tsakesSlice.actions
