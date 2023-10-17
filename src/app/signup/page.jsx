@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import useApi from "../../../hooks/api";
+import {useApi} from "../../../hooks/api";
 import { redirect } from "next/navigation";
 import styles from "./signUp.module.css";
 import Link from "next/link";

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
-import useApi from "../../../hooks/api";
+import {useApi} from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
 export default function Login() {
@@ -39,6 +39,8 @@ export default function Login() {
       try {
         const res = await api.post("users/login", data);
         console.log(res.data);
+        localStorage.setItem("token",res.data.token)
+        localStorage.setItem("data",JSON.stringify(res.data.data))
       } catch (error) {
         console.log(error);
       }
