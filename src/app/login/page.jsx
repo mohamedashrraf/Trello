@@ -53,7 +53,7 @@ export default function Login() {
       <div className={styles.body}>
         <div className="container">
           <div className={styles.center}>
-            <h1>Login</h1>
+            <h1 className="mt-2">Login</h1>
             <form
               className={styles.newForm}
               onSubmit={(e) => {
@@ -64,7 +64,7 @@ export default function Login() {
               <div className={styles.txt_field}>
                 <input
                   type="email"
-                  className="form-control"
+                  className=""
                   id="exampleInputEmail1"
                   name="email"
                   aria-describedby="emailHelp"
@@ -87,7 +87,7 @@ export default function Login() {
               <div className={styles.txt_field}>
                 <input
                   type="password"
-                  className="form-control"
+                  className=""
                   id="exampleInputPassword1"
                   name="password"
                   value={formik.values.password}
@@ -101,7 +101,7 @@ export default function Login() {
                   Password
                 </label>
                 <div>
-                  {formik.touched?.password && <p>{formik.errors?.password}</p>}
+                  {formik.touched?.password && <p className="text-danger"> {formik.errors?.password}</p>}
                 </div>
               </div>
               <div>
