@@ -15,7 +15,9 @@ export default function RootLayout({ children }) {
   return (
     <>
       <Navbar />
+      <main className='min-vh-100'>
       {children}
+      </main>
       <Footer />
     </>
   )
