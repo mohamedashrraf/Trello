@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import useApi from "../../../hooks/api";
+import {useApi} from "../../../hooks/api";
 import { redirect } from "next/navigation";
 export default function Signup() {
   const api = useApi();
