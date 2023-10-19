@@ -1,13 +1,21 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
 import {useApi} from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
+import { tokenContext } from '../context/tokenContext'
+import { redirect } from 'next/navigation'
+
+
+
 export default function Login() {
   const api = useApi();
+  let setToken = useContext(tokenContext);
+
+  
   const initialValues = {
     email: "",
     password: "",
@@ -31,6 +39,7 @@ export default function Login() {
       )
       .required("password is required"),
   });
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -40,12 +49,15 @@ export default function Login() {
         const res = await api.post("users/login", data);
         console.log(res.data);
         localStorage.setItem("token",res.data.token)
-        localStorage.setItem("data",JSON.stringify(res.data.data))
+        localStorage.setItem("data", JSON.stringify(res.data.data))
+        setToken(res.data.token);
+        redirect('/user');
       } catch (error) {
         console.log(error);
       }
     },
   });
+
   useEffect(() => {
     formik.touched.email = false;
     formik.touched.password = false;
@@ -107,12 +119,11 @@ export default function Login() {
                 </div>
               </div>
               <div>
-                <input
+                <button 
                   name="submit"
                   type="Submit"
                   className={styles.sub}
-                  defaultValue="Login"
-                />
+                >Login</button>
               </div>
               <div>
                 <div className={styles.signup_link}>

@@ -1,8 +1,24 @@
-import Link from 'next/link'
-import React from 'react'
+"use client";
+import Link from 'next/link';
+import React, { useContext } from 'react';
+import { tokenContext } from '../context/tokenContext';
+import { redirect } from 'next/navigation'
+
+
+
 
 export default function Navbar() {
+  let { token,setToken } = useContext(tokenContext);
+
+  function logout() {
+    localStorage.removeItem("token")
+    localStorage.removeItem("data")
+    setToken(null);
+    redirect("/login")
+  }
+
   return (
+
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container">
     <Link className="navbar-brand" href="/">Trello</Link>
@@ -26,4 +42,5 @@ export default function Navbar() {
   </div>
 </nav>
   )
+
 }
