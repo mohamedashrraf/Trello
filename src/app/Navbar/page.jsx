@@ -1,9 +1,25 @@
-import Link from 'next/link'
-import React from 'react'
+"use client";
+import Link from 'next/link';
+import React, { useContext } from 'react';
+import { tokenContext } from '../context/tokenContext';
+import { redirect } from 'next/navigation'
+
+
+
 
 export default function Navbar() {
+  let { token,setToken } = useContext(tokenContext);
+
+  function logout() {
+    localStorage.removeItem("token")
+    localStorage.removeItem("data")
+    setToken(null);
+    redirect("/login")
+  }
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container">
     <Link className="navbar-brand" href="/">Trello</Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,24 +34,13 @@ export default function Navbar() {
           <Link className="nav-link"  href='./login'>Login</Link>
             </li>
             <li className="nav-item">
-          <Link className="nav-link"  href='./signup'>Signup</Link>
-        </li>
-        <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a className="dropdown-item" href="#">Action</a></li>
-            <li><a className="dropdown-item" href="#">Another action</a></li>
-            <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      
+          <Link className="nav-link"  href='./signup'>Sign Up</Link>
+        </li>  
       </ul>
       
     </div>
   </div>
 </nav>
   )
+
 }

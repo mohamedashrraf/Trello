@@ -1,13 +1,21 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
 import {useApi} from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
+import { tokenContext } from '../context/tokenContext'
+import { redirect } from 'next/navigation'
+
+
+
 export default function Login() {
   const api = useApi();
+  let setToken = useContext(tokenContext);
+
+  
   const initialValues = {
     email: "",
     password: "",
@@ -31,6 +39,7 @@ export default function Login() {
       )
       .required("password is required"),
   });
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -40,12 +49,15 @@ export default function Login() {
         const res = await api.post("users/login", data);
         console.log(res.data);
         localStorage.setItem("token",res.data.token)
-        localStorage.setItem("data",JSON.stringify(res.data.data))
+        localStorage.setItem("data", JSON.stringify(res.data.data))
+        setToken(res.data.token);
+        redirect('/user');
       } catch (error) {
         console.log(error);
       }
     },
   });
+
   useEffect(() => {
     formik.touched.email = false;
     formik.touched.password = false;
@@ -55,7 +67,7 @@ export default function Login() {
       <div className={styles.body}>
         <div className="container">
           <div className={styles.center}>
-            <h1>Login</h1>
+            <h1 className="mt-2">Login</h1>
             <form
               className={styles.newForm}
               onSubmit={(e) => {
@@ -66,7 +78,7 @@ export default function Login() {
               <div className={styles.txt_field}>
                 <input
                   type="email"
-                  className="form-control"
+                  className=""
                   id="exampleInputEmail1"
                   name="email"
                   aria-describedby="emailHelp"
@@ -89,7 +101,7 @@ export default function Login() {
               <div className={styles.txt_field}>
                 <input
                   type="password"
-                  className="form-control"
+                  className=""
                   id="exampleInputPassword1"
                   name="password"
                   value={formik.values.password}
@@ -103,16 +115,15 @@ export default function Login() {
                   Password
                 </label>
                 <div>
-                  {formik.touched?.password && <p>{formik.errors?.password}</p>}
+                  {formik.touched?.password && <p className="text-danger"> {formik.errors?.password}</p>}
                 </div>
               </div>
               <div>
-                <input
+                <button 
                   name="submit"
                   type="Submit"
                   className={styles.sub}
-                  defaultValue="Login"
-                />
+                >Login</button>
               </div>
               <div>
                 <div className={styles.signup_link}>
