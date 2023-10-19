@@ -30,9 +30,6 @@ export default function RootLayout({ children }) {
           </ReactQuery>
         </Redux>
         <Footer />
-
-        
-          <Footer />
           </TokenContextProvider>
 
       </body>
