@@ -7,14 +7,13 @@ import {useApi} from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
 import { tokenContext } from '../context/tokenContext'
-import { useRouter } from 'next/router';
+import { redirect } from 'next/navigation'
+
 
 
 export default function Login() {
   const api = useApi();
   let setToken = useContext(tokenContext);
-
-// const router = useRouter();
 
   
   const initialValues = {
@@ -52,7 +51,7 @@ export default function Login() {
         localStorage.setItem("token",res.data.token)
         localStorage.setItem("data", JSON.stringify(res.data.data))
         setToken(res.data.token);
-        // router.push('/user');
+        redirect('/user');
       } catch (error) {
         console.log(error);
       }

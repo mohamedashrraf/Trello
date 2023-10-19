@@ -2,19 +2,19 @@
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import { tokenContext } from '../context/tokenContext';
-import { useRouter } from 'next/router';
+import { redirect } from 'next/navigation'
+
 
 
 
 export default function Navbar() {
   let { token,setToken } = useContext(tokenContext);
-  // const router = useRouter();
 
   function logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("data")
     setToken(null);
-    // router.push("/login")
+    redirect("/login")
   }
 
   return (
