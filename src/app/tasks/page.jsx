@@ -5,6 +5,8 @@ import { useApiAuth } from "../../../hooks/api";
 import { useQuery } from "react-query";
 import FormAddTask from "@/componant/FormAddTask/FormAddTask";
 import FormUpdateTask from "@/componant/FormUpdateTask/FormUpdateTask";
+import { setRefetch } from "@/tsakesSlice/tsakesSlice";
+import { useDispatch } from "react-redux";
 // export const metadata = {
 //   title: "Tasks",
 //   description: "Tasks page",
@@ -21,37 +23,42 @@ import FormUpdateTask from "@/componant/FormUpdateTask/FormUpdateTask";
 //   updatedAt: "2023-10-15T18:07:47.616Z",
 // }];
 export default function Tasks() {
+  const dispatch = useDispatch();
   let tasks = [];
   let taskJsx;
   const api = useApiAuth();
-  const addTask = async (id) => {
-    await api.delete(`/tasks/task/${id}`);
-  };
-  
-  const { isLoading, data, error ,refetch} = useQuery(
+
+  const { isLoading, data, error, refetch } = useQuery(
     "tasks",
     async () => await api.get("/tasks/task")
-    );
-    const deleteTask = async (id) => {
-      await api.delete(`/tasks/task/${id}`);
-      refetch()
-    };
+  );
+  dispatch(setRefetch(refetch));
+  const deleteTask = async (id) => {
+    await api.delete(`/tasks/task/${id}`);
+    refetch();
+  };
   if (data) {
-    
     tasks = data.data.data;
     if (tasks.length == 0) {
       taskJsx = <div>not found task</div>;
     } else {
       taskJsx = tasks.map((task) => {
-        return <Task task={task} key={task._id} deleteTask={deleteTask}  refetch={refetch}/>;
+        return (
+          <Task
+            task={task}
+            key={task._id}
+            deleteTask={deleteTask}
+            refetch={refetch}
+          />
+        );
       });
     }
   }
 
-
-  return <main>
-    {isLoading || (data && taskJsx)}
- <FormAddTask refetch={refetch} />
- 
-    </main>;
+  return (
+    <main>
+      {isLoading || (data && taskJsx)}
+      <FormAddTask refetch={refetch} />
+    </main>
+  );
 }

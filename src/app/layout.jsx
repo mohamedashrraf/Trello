@@ -24,13 +24,17 @@ export default function RootLayout({ children }) {
       <body>
          <TokenContextProvider>
         <Navbar />
-      
+      <Redux>
           <ReactQuery>
             <main className="min-vh-100">{children}</main>
           </ReactQuery>
+        </Redux>
+        <Footer />
+
         
           <Footer />
           </TokenContextProvider>
+
       </body>
     </html>
   );

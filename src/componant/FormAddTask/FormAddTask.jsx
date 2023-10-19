@@ -1,9 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
-import React from "react";
+import React  from "react";
 import { useApiAuth } from "../../../hooks/api";
 import { useMutation } from "react-query";
-export default function FormAddTask({ refetch }) {
+import { useSelector } from "react-redux";
+export default function FormAddTask({  }) {
+const refetch = useSelector((status)=>status.tasks.refetch)
+const userId = useSelector((status)=>status.tasks.userId)
   const api = useApiAuth();
   const mutation = () => {
     return useMutation(async (data) => {
@@ -11,31 +14,31 @@ export default function FormAddTask({ refetch }) {
       refetch();
     });
   };
-  const { mutate, error } = mutation();
-  let userId ;
-  React.useEffect(()=>{
-    userId = JSON.parse(localStorage.getItem("data"))._id;
-
-  },[])
+  const { mutate, error , data : serverData} = mutation();
   const defaultValues = {
     title: "",
     description: "",
-    userId: userId,
+    userId:userId,
     assignTo: userId,
     deadline: "",
   };
+  
   const {
     register,
     handleSubmit,
-    watch,
+    watch,reset,
     formState: { errors },
   } = useForm({ defaultValues, mode: "onBlur" });
+
+
   return (
     <>
       <form
         onSubmit={handleSubmit((data) => {
           console.log(data);
+          console.log(defaultValues)
           mutate(data);
+          reset()
         })}
       >
         <div className="mb-3">
@@ -60,7 +63,7 @@ export default function FormAddTask({ refetch }) {
             })}
           />
           <div>
-            <p>{errors.email?.message}</p>
+            <p>{errors.title?.message}</p>
           </div>
         </div>
         <div className="mb-3">
