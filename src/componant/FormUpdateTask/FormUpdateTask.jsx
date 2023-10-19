@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { useApiAuth } from "../../../hooks/api";
 import { useMutation } from "react-query";
-export default function FormUpdateTask({ refetch, task }) {
+import { useSelector } from "react-redux";
+export default function FormUpdateTask({ task }) {
+  const refetch = useSelector((status)=>status.tasks.refetch)
   const api = useApiAuth();
   const mutation = () => {
     return useMutation(async (data) => {

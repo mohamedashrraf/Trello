@@ -16,11 +16,11 @@ export default function RootLayout({ children }) {
     <html>
       <body>
         <Navbar />
-      
+      <Redux>
           <ReactQuery>
             <main className="min-vh-100">{children}</main>
           </ReactQuery>
-        
+        </Redux>
         <Footer />
       </body>
     </html>
