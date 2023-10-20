@@ -4,6 +4,7 @@ import React from "react";
 import { useApiAuth } from "../../../hooks/api";
 import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
+import styles from './FormUpdateTask.module.css'
 export default function FormUpdateTask({ task }) {
   const refetch = useSelector((status)=>status.tasks.refetch)
   const api = useApiAuth();
@@ -25,7 +26,9 @@ export default function FormUpdateTask({ task }) {
     formState: { errors },
   } = useForm({ defaultValues, mode: "onBlur" });
   return (
-    <>
+
+    <div className={styles.login}>
+    <h4 className="text-center">Edit Task</h4>
       <form
         onSubmit={handleSubmit((data) => {
           mutate(data);
@@ -104,11 +107,10 @@ export default function FormUpdateTask({ task }) {
             </div>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
+        <button type="submit" className="btn btn-success">
+          Save
         </button>
       </form>
-      {/* <div>hi</div> */}
-    </>
+      </div>
   );
 }

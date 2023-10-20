@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import FormAddTask from "@/componant/FormAddTask/FormAddTask";
 import FormUpdateTask from "@/componant/FormUpdateTask/FormUpdateTask";
 import { setRefetch } from "@/tsakesSlice/tsakesSlice";
+import styles from "./tsking.module.css";
 import { useDispatch } from "react-redux";
 // export const metadata = {
 //   title: "Tasks",
@@ -40,25 +41,40 @@ export default function Tasks() {
   if (data) {
     tasks = data.data.data;
     if (tasks.length == 0) {
-      taskJsx = <div>not found task</div>;
     } else {
       taskJsx = tasks.map((task) => {
         return (
-          <Task
-            task={task}
-            key={task._id}
-            deleteTask={deleteTask}
-            refetch={refetch}
-          />
+          <div className="container">
+            <div className="row">
+            <div className="col-md-3"></div>
+              <div className="col-md-6 mt-5">
+                <div className={styles.deletedTask}>
+                  <Task
+                    task={task}
+                    key={task._id}
+                    deleteTask={deleteTask}
+                    refetch={refetch}
+                  />
+                </div>
+                <div className="col-md-3"></div>
+              </div>
+            </div>
+          </div>
         );
       });
     }
   }
 
   return (
-    <main>
-      {isLoading || (data && taskJsx)}
-      <FormAddTask refetch={refetch} />
-    </main>
+    <div className={styles.body}>
+      <div className="container ">
+        <div className="row">
+          <div>
+            <FormAddTask refetch={refetch} />
+            {isLoading || (data && taskJsx)}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

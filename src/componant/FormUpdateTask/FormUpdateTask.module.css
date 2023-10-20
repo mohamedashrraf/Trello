@@ -1,0 +1,11 @@
+.login {
+  color: white;
+  background: #136a8a;
+  background: -webkit-linear-gradient(to right, #0b3532, #66138a);
+  background: linear-gradient(to right, #263978, #8a6413);
+  margin-top: 20px;
+  padding: 20px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2), 0px 10px 20px rgba(0, 0, 0, 0.3),
+    0px 30px 60px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
