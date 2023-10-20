@@ -1,0 +1,30 @@
+.deletedTask{
+    color: white;
+    background: #136a8a;
+    background: -webkit-linear-gradient(to right, #0b3532, #66138a);
+    background: linear-gradient(to right, #263978, #8a6413);
+    padding: 30px;
+    margin-bottom: 10px;
+}
+.deletedTask div:nth-child(4){
+margin-bottom: 20px;
+}
+.deletedTask h2:first-child{
+    padding-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+}
+.deletedTask h2:first-child::after{
+    padding-bottom: 3px;
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 36%;
+    width: 100px;
+    height: 4px;
+    border-radius: 6px;
+    background: #13a3d7;
+
+}
+
