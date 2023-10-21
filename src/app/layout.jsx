@@ -6,31 +6,32 @@ import Footer from "./Footer/page";
 import ReactQuery from "@/componant/provider/ReactQuery/ReactQuery";
 import Redux from "@/componant/provider/Redux/Redux";
 import TokenContextProvider from './context/tokenContext';
-// import { useClient } from 'next/stdlib/server';
+import UserContextProvider from "./context/userContext";
 
 
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
-  title: "Trello-App",
+  title: "Trello",
   description: "Home page",
 };
 
-    // useClient();
 export default function RootLayout({ children }) {
 
   return (
     <html>
       <body>
-         <TokenContextProvider>
-        <Navbar />
-      <Redux>
-          <ReactQuery>
-            <main className="min-vh-100">{children}</main>
-          </ReactQuery>
-        </Redux>
-        <Footer />
-          </TokenContextProvider>
+        <TokenContextProvider>
+          <UserContextProvider>
+            <Navbar />
+            <Redux>
+              <ReactQuery>
+                <main className="min-vh-100">{children}</main>
+              </ReactQuery>
+            </Redux>
+            <Footer />
+          </UserContextProvider>
+        </TokenContextProvider>
 
       </body>
     </html>

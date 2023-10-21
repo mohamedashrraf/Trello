@@ -21,7 +21,7 @@ export default function Navbar() {
 
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container">
-    <Link className="navbar-brand" href="/">Trello</Link>
+    <Link className="navbar-brand" href="/"> <img src="/images/logo.png" alt="Trello" style={{width:"100px"}} /></Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon" />
     </button>
