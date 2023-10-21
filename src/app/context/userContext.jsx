@@ -27,11 +27,6 @@ const UserContextProvider = ({ children, id }) => {
         console.error("Error fetching user data:", error);
       }
     }
-//     export const userJoiSchemaUpdate = joi.object<UserUpdate>({
-//   userName: joi.string().min(5).max(30),
-//   age: joi.number().min(18).max(60),
-//   password: joi.string().pattern(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/),
-// });
 
     fetchData();
   }, [id]); 

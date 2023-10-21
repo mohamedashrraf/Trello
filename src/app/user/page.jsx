@@ -12,9 +12,9 @@ export default function User() {
   let userData = JSON.parse(localStorage.getItem("data"));
 
   const validationSchema = Yup.object().shape({
-    userName: Yup.string().required('User Name is required'),
+    userName: Yup.string().required('User Name is required').min(5).max(30),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    age: Yup.number().typeError('Age must be a number').required('Age is required'),
+    age: Yup.number().typeError('Age must be a number').required('Age is required').min(18).max(60),
   });
 
   // Function to update user data
