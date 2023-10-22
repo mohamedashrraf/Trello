@@ -3,19 +3,34 @@ import React, { useContext, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
-import {useApi} from "../../../hooks/api";
+import { useApi } from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
 import { tokenContext } from '../context/tokenContext'
 import { redirect } from 'next/navigation'
-
+import { GoogleLogin } from '@react-oauth/google';
+import {useRouter} from "next/navigation"
 
 
 export default function Login() {
   const api = useApi();
-  let setToken = useContext(tokenContext);
+  const router = useRouter()
+  let {setToken} = useContext(tokenContext);
+  const googleLogin = async (data) => { 
+    try {
+      const res = await api.post("users/google_login", data);
+      console.log(res.data);
+      localStorage.setItem("token", res.data.token)
+      localStorage.setItem("data", JSON.stringify(res.data.data))
+      setToken(res.data.token);
+      router.push("/user")
+    console.log("user")  
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  
   const initialValues = {
     email: "",
     password: "",
@@ -48,7 +63,7 @@ export default function Login() {
       try {
         const res = await api.post("users/login", data);
         console.log(res.data);
-        localStorage.setItem("token",res.data.token)
+        localStorage.setItem("token", res.data.token)
         localStorage.setItem("data", JSON.stringify(res.data.data))
         setToken(res.data.token);
         redirect('/user');
@@ -119,7 +134,7 @@ export default function Login() {
                 </div>
               </div>
               <div>
-                <button 
+                <button
                   name="submit"
                   type="Submit"
                   className={styles.sub}
@@ -129,6 +144,16 @@ export default function Login() {
                 <div className={styles.signup_link}>
                   Not a Member ? <Link href="/signup">Signup</Link>
                 </div>
+                <GoogleLogin
+                  onSuccess={credentialResponse => {
+
+                    console.log(credentialResponse);
+                    googleLogin(credentialResponse)
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
               </div>
             </form>
           </div>
