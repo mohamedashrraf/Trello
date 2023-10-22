@@ -1,8 +1,9 @@
 "use client";
-import React, { useContext, useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { UserContext } from '../context/userContext';
+import React, { useContext, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { UserContext } from "../context/userContext";
+import styles from "./User.module.css";
 
 export default function User() {
   const { user } = useContext(UserContext);
@@ -12,9 +13,13 @@ export default function User() {
   let userData = JSON.parse(localStorage.getItem("data"));
 
   const validationSchema = Yup.object().shape({
-    userName: Yup.string().required('User Name is required').min(5).max(30),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    age: Yup.number().typeError('Age must be a number').required('Age is required').min(18).max(60),
+    userName: Yup.string().required("User Name is required").min(5).max(30),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    age: Yup.number()
+      .typeError("Age must be a number")
+      .required("Age is required")
+      .min(18)
+      .max(60),
   });
 
   // Function to update user data
@@ -26,8 +31,8 @@ export default function User() {
   };
 
   return (
-    <div className='container'>
-      <div className='col-md-4 text-center mx-auto'>
+    <div className="container">
+      <div className="col-md-4  mx-auto mt-5">
         {isEditing ? (
           <Formik
             initialValues={{
@@ -39,42 +44,83 @@ export default function User() {
             onSubmit={updateUser}
           >
             {({ isSubmitting }) => (
-              <Form>
-                <div className="form-group">
-                  <label htmlFor="userName">User Name</label>
-                  <Field type="text" name="userName" className="form-control" />
-                  <ErrorMessage name="userName" component="div" className="text-danger" />
-                </div>
+              <div className={styles.loginForm}>
+                <div className={styles.form}>
+                  <form className={styles.registerForm}>
+                    <h2 className="text-center pb-2">Edit</h2>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        name="userName"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="userName"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <Field type="text" name="email" className="form-control" />
-                  <ErrorMessage name="email" component="div" className="text-danger" />
-                </div>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        name="email"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="age">Age</label>
-                  <Field type="text" name="age" className="form-control" />
-                  <ErrorMessage name="age" component="div" className="text-danger" />
-                </div>
+                    <div className="form-group">
+                      <Field type="text" name="age" className="form-control" />
+                      <ErrorMessage
+                        name="age"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                <button type="submit" className="btn btn-outline-success" disabled={isSubmitting}>
-                  Save
-                </button>
-              </Form>
+                    <button
+                      type="submit"
+                      className="btn btn-outline-success"
+                      disabled={isSubmitting}
+                    >
+                      Save
+                    </button>
+                  </form>
+                </div>
+              </div>
             )}
           </Formik>
         ) : (
-          <>
-            <h1 className={`text-center`}>{userData.userName}</h1>
-            <h2 className={``}>{userData.email}</h2>
-            <h2 className={``}>{userData.age}</h2>
-          </>
+          <div className={styles.userProfile}>
+            <div className={styles.avatar}>
+              <img src="/images/ava.png" />
+            </div>
+            <div className={styles.text}>
+              <h4 className={``}>
+                <span>Username : </span>
+                {userData.userName}
+              </h4>
+              <h4 className={``}>
+                <span>Email : </span>
+                {userData.email}
+              </h4>
+              <h4 className={``}>
+                <span>Age : </span>
+                {userData.age}
+              </h4>
+            </div>
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              {isEditing ? "Cancel" : "Edit"}
+            </button>
+          </div>
         )}
-
-        <button className='btn btn-outline-success' onClick={() => setIsEditing(!isEditing)}>
-          {isEditing ? 'Cancel' : 'Edit'}
-        </button>
       </div>
     </div>
   );
