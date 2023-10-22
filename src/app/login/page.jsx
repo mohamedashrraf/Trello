@@ -74,7 +74,7 @@ export default function Login() {
         localStorage.setItem("data", JSON.stringify(res.data.data))
         setToken(res.data.token);
 
-        redirect('/user');
+        router.push('/user');
       } catch (error) {
         
         console.log(error);
