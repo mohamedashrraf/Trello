@@ -3,11 +3,15 @@ import React, { useContext, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from '../context/userContext';
-
+import {useRouter} from "next/navigation"
 export default function User() {
+  const router = useRouter()
   const { user } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
+  if(!localStorage.getItem("token")){
 
+    router.push("/login")
+  }
   // You can retrieve the userData from local storage here
   let userData = JSON.parse(localStorage.getItem("data"));
 
@@ -31,9 +35,9 @@ export default function User() {
         {isEditing ? (
           <Formik
             initialValues={{
-              userName: userData.userName,
-              email: userData.email,
-              age: userData.age,
+              userName: userData?.userName,
+              email: userData?.email,
+              age: userData?.age,
             }}
             validationSchema={validationSchema}
             onSubmit={updateUser}
@@ -66,9 +70,9 @@ export default function User() {
           </Formik>
         ) : (
           <>
-            <h1 className={`text-center`}>{userData.userName}</h1>
-            <h2 className={``}>{userData.email}</h2>
-            <h2 className={``}>{userData.age}</h2>
+            <h1 className={`text-center`}>{userData?.userName}</h1>
+            <h2 className={``}>{userData?.email}</h2>
+            <h2 className={``}>{userData?.age}</h2>
           </>
         )}
 
