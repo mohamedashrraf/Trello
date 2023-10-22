@@ -7,7 +7,7 @@ import ReactQuery from "@/componant/provider/ReactQuery/ReactQuery";
 import Redux from "@/componant/provider/Redux/Redux";
 import TokenContextProvider from './context/tokenContext';
 import UserContextProvider from "./context/userContext";
-
+import GoogleProvider from "@/componant/provider/GoogleProvider/GoogleProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
             <Navbar />
             <Redux>
               <ReactQuery>
-                <main className="min-vh-100">{children}</main>
+                <GoogleProvider>
+                  <main className="min-vh-100">{children}</main>
+                </GoogleProvider>
               </ReactQuery>
             </Redux>
             <Footer />
