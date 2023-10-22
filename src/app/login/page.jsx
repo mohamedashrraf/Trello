@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
@@ -7,15 +7,18 @@ import { useApi } from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
 import { tokenContext } from '../../context/tokenContext'
-import { redirect } from 'next/navigation'
 import { GoogleLogin } from '@react-oauth/google';
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation"
+
 
 
 export default function Login() {
   const api = useApi();
   const router = useRouter()
-  let {setToken} = useContext(tokenContext);
+  let { setToken } = useContext(tokenContext);
+  const [isLoading, setLoading] = useState(false);
+
+
   const googleLogin = async (data) => { 
     try {
       const res = await api.post("users/google_login", data);
@@ -61,14 +64,18 @@ export default function Login() {
     validateOnBlur: true,
     onSubmit: async (data) => {
       try {
+        setLoading(true);
         const res = await api.post("users/login", data);
         console.log(res.data);
+        setLoading(false);
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("data", JSON.stringify(res.data.data))
         setToken(res.data.token);
-        redirect('/user');
+        router.push('/user');
       } catch (error) {
         console.log(error);
+        setLoading(false);
+
       }
     },
   });
@@ -138,7 +145,7 @@ export default function Login() {
                   name="submit"
                   type="Submit"
                   className={styles.sub}
-                >Login</button>
+                >{isLoading? <i className='fa fa-spin fa-spinner'></i>:<><i className='fa fa-edit'></i>Login</>}</button>
               </div>
               <div>
                 <div className={styles.signup_link}>

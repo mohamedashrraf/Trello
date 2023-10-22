@@ -8,15 +8,15 @@ export default function User() {
   const { user,setUser,fetchData } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
 
-  // You can retrieve the userData from local storage here
+  // retrieve the userData from local storage
   let userData = JSON.parse(localStorage.getItem("data"));
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required').min(5).max(30),
-    email: Yup.string().email('Invalid email').required('Email is required').matches(
-        /^.+@.+\.(com|net|lol)$/,
-        "Not accepted email should end with com or net or lol"
-      ),
+    // email: Yup.string().email('Invalid email').required('Email is required').matches(
+    //     /^.+@.+\.(com|net|lol)$/,
+    //     "Not accepted email should end with com or net or lol"
+    //   ),
     age: Yup.number().typeError('Age must be a number').required('Age is required').min(18).max(60),
   });
 
@@ -25,8 +25,9 @@ export default function User() {
     let id = JSON.parse(localStorage.getItem("data"))._id;
     const updatedAge = parseInt(values.age, 10);
     userData = {
-    userName: values.userName,
-    age: updatedAge,
+      userName: values.userName,
+      email: values.email,
+      age: updatedAge,
   };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
     fetchData({...userData },id);
@@ -62,11 +63,11 @@ export default function User() {
                   <ErrorMessage name="userName" component="div" className="text-danger" />
                 </div>
 
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <Field type="text" name="email" className="form-control" />
                   <ErrorMessage name="email" component="div" className="text-danger" />
-                </div>
+                </div> */}
 
                 <div className="form-group">
                   <label htmlFor="age">Age</label>

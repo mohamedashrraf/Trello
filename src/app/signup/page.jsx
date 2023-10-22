@@ -4,15 +4,21 @@ import {useApi} from "../../../hooks/api";
 import { redirect } from "next/navigation";
 import styles from "./signUp.module.css";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 export default function Signup() {
   const api = useApi();
+  const [isLoading, setLoading] = useState(false);
+
+  
   const submitHandler = async (reqData) => {
     try {
+      setLoading(true);
       const res = await api.post("users/signUp", reqData);
       console.log(res.data);
+      setLoading(false);
       redirect("/login");
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -236,12 +242,9 @@ export default function Signup() {
                 </div>
               </div>
               <div>
-              <input
-                name="submit"
-                type="Submit"
-                className={styles.sub}
-                defaultValue="Sign Up"
-              />
+                <button
+                  name="submit" type="Submit" className={styles.sub}
+                >{isLoading? <i className='fa fa-spin fa-spinner'></i>:<><i className='fa fa-edit'></i>signUp</>}</button>
             </div>
             <div>
               <div className={styles.signup_link}>
