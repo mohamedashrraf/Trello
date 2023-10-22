@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-
 export const tsakesSlice = createSlice({
   name: 'tasks',
   initialState: {
-    userId: JSON.parse(localStorage.getItem("data"))?._id,
+    userId:localStorage.getItem("data") ?? JSON.parse(localStorage.getItem("data"))?._id,
   }, reducers: {
     setRefetch(state, actions) {
       state.refetch = actions.payload

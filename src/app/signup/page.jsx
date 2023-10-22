@@ -1,19 +1,32 @@
 "use client";
 import { useForm } from "react-hook-form";
 import {useApi} from "../../../hooks/api";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import styles from "./signUp.module.css";
 import Link from "next/link";
 import { Fragment } from "react";
 export default function Signup() {
   const api = useApi();
+  const submitInput = document.getElementById("submitInput")
+  const errorsEmail = document.getElementById("errorsEmail")
   const submitHandler = async (reqData) => {
+    const router =useRouter()
     try {
+      submitInput.disabled = true
+      errorsEmail.innerText = ""
+      submitInput.classList.add("spinner-grow")
       const res = await api.post("users/signUp", reqData);
       console.log(res.data);
-      redirect("/login");
+      router.push("/login");
     } catch (error) {
+      if(error.response?.data?.message == "email is unique"){
+        console.log("email is unique")
+        errorsEmail.innerText = "email is used"
+      }
       console.log(error);
+    }finally{
+      submitInput.classList.remove("spinner-grow")
+      submitInput.disabled = false
     }
   };
   const defaultValues = {
@@ -31,7 +44,7 @@ export default function Signup() {
     watch,
     formState: { errors },
   } = useForm({ defaultValues, mode: "onBlur" });
-
+  
   return (
     <Fragment>
       <div className={styles.body}>
@@ -41,7 +54,7 @@ export default function Signup() {
 
             <form
             className={styles.newForm}
-              onSubmit={handleSubmit((data) => {
+            onSubmit={handleSubmit((data) => {
                 data.rePassword = undefined;
                 // console.log(data);
                 submitHandler(data);
@@ -70,7 +83,7 @@ export default function Signup() {
                 User Name
               </label>
                 <div>
-                  <p className="text-danger">{errors.userName?.message}</p>
+                  <p className="text-danger"  >{errors.userName?.message}</p>
                 </div>
               </div>
               <div className={styles.txt_field}>
@@ -101,7 +114,7 @@ export default function Signup() {
                 Email address
               </label>
                 <div>
-                  <p className="text-danger">{errors.email?.message}</p>
+                  <p className="text-danger" id="errorsEmail">{errors.email?.message}</p>
                 </div>
               </div>
               <div className={styles.txt_field}>
@@ -114,8 +127,8 @@ export default function Signup() {
                     required: "age is required",
                     valueAsNumber: true,
                     validate: (value) => {
-                      if (value > 100 || value < 13) {
-                        return "age should between 13 and 100 ";
+                      if (value > 100 || value < 18) {
+                        return "age should between 18 and 100 ";
                       }
                     },
                   })}
@@ -241,6 +254,8 @@ export default function Signup() {
                 type="Submit"
                 className={styles.sub}
                 defaultValue="Sign Up"
+                id="submitInput"
+                
               />
             </div>
             <div>

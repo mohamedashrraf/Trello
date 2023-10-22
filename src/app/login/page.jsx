@@ -9,14 +9,16 @@ import Link from "next/link";
 import { tokenContext } from '../context/tokenContext'
 import { redirect } from 'next/navigation'
 import { GoogleLogin } from '@react-oauth/google';
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation"
 
 
 export default function Login() {
   const api = useApi();
   const router = useRouter()
-  let {setToken} = useContext(tokenContext);
-  const googleLogin = async (data) => { 
+  const submitInput = document.getElementById("submitInput")
+  let { setToken } = useContext(tokenContext);
+  const PasswordErr = document.getElementById("PasswordErr")
+  const googleLogin = async (data) => {
     try {
       const res = await api.post("users/google_login", data);
       console.log(res.data);
@@ -24,8 +26,8 @@ export default function Login() {
       localStorage.setItem("data", JSON.stringify(res.data.data))
       setToken(res.data.token);
       router.push("/user")
-    console.log("user")  
-      
+      console.log("user")
+
     } catch (error) {
       console.log(error);
     }
@@ -61,14 +63,24 @@ export default function Login() {
     validateOnBlur: true,
     onSubmit: async (data) => {
       try {
+        submitInput.disabled = true
+        submitInput.classList.add("spinner-grow")
         const res = await api.post("users/login", data);
         console.log(res.data);
+        if(res.data.message== 'password is rong'){
+          PasswordErr.innerText = 'password is rong'
+        }
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("data", JSON.stringify(res.data.data))
         setToken(res.data.token);
+
         redirect('/user');
       } catch (error) {
+        
         console.log(error);
+      }finally{
+        submitInput.classList.remove("spinner-grow")
+        submitInput.disabled = false
       }
     },
   });
@@ -130,6 +142,7 @@ export default function Login() {
                   Password
                 </label>
                 <div>
+                  <p className="text-danger" id="PasswordErr"></p>
                   {formik.touched?.password && <p className="text-danger"> {formik.errors?.password}</p>}
                 </div>
               </div>
@@ -138,6 +151,7 @@ export default function Login() {
                   name="submit"
                   type="Submit"
                   className={styles.sub}
+                  id="submitInput"
                 >Login</button>
               </div>
               <div>

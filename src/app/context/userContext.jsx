@@ -9,7 +9,7 @@ const UserContextProvider = ({ children, id }) => {
 
   useEffect(() => {
     async function fetchData() {
-      let id = JSON.parse(localStorage.getItem("data"))?._id;
+      let id = localStorage.getItem("data") ?? JSON.parse(localStorage.getItem("data"))?._id;
       try {
         const response = await axios.post(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
           {
