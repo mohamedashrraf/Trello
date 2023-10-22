@@ -7,14 +7,11 @@ export const UserContext = createContext();
 const UserContextProvider = ({ children, id }) => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      let id = JSON.parse(localStorage.getItem("data"))._id;
+  
+    async function fetchData(data,id) {
       try {
-        const response = await axios.post(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
-          {
-          userName:res
-        },
+        const response = await axios.patch(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
+          data,
           {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -26,13 +23,10 @@ const UserContextProvider = ({ children, id }) => {
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
-    }
-
-    fetchData();
-  }, [id]); 
+    }  
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, fetchData}}>
       {children}
     </UserContext.Provider>
   );
