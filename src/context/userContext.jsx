@@ -27,8 +27,15 @@ const UserContextProvider = ({ children, id }) => {
         console.error("Error fetching user data:", error);
       }
     }
+    try{
+      if(localStorage.getItem("data")){
+        fetchData();
 
-    fetchData();
+      }
+
+    }catch(e){
+
+    }
   }, [id]); 
 
   return (

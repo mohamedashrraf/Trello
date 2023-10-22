@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import React, { useContext } from 'react';
-import { tokenContext } from '../../app/context/tokenContext';
+import { tokenContext } from '../../context/tokenContext';
 import { useRouter } from 'next/navigation'
 import "bootstrap/dist/js/bootstrap"
 import { googleLogout } from '@react-oauth/google';
