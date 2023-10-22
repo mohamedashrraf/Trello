@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import React, { useContext } from 'react';
-import { tokenContext } from '../context/tokenContext';
+import { tokenContext } from '../../context/tokenContext';
 import { redirect } from 'next/navigation'
 import "bootstrap/dist/js/bootstrap"
 export default function Navbar() {

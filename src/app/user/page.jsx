@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { UserContext } from '../context/userContext';
+import { UserContext } from '../../context/userContext';
 
 export default function User() {
   const { user,setUser,fetchData } = useContext(UserContext);

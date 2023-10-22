@@ -6,7 +6,7 @@ import styles from "./Login.module.css";
 import { useApi } from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
-import { tokenContext } from '../context/tokenContext'
+import { tokenContext } from '../../context/tokenContext'
 import { redirect } from 'next/navigation'
 import { GoogleLogin } from '@react-oauth/google';
 import {useRouter} from "next/navigation"
