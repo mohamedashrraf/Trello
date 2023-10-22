@@ -8,27 +8,18 @@ import FormUpdateTask from "@/componant/FormUpdateTask/FormUpdateTask";
 import { setRefetch } from "@/tsakesSlice/tsakesSlice";
 import styles from "./tsking.module.css";
 import { useDispatch } from "react-redux";
-// export const metadata = {
-//   title: "Tasks",
-//   description: "Tasks page",
-// };
-// let tasks = [{
-//   _id: "652c2a7387eef38df1deefcb",
-//   title: "string",
-//   description: "ljljlk;lrk;lklfjldflhkdf;lhfd",
-//   status: "toDo",
-//   userId: "652c0605dd35e2fe7c97d37a",
-//   assignTo: "652c0605dd35e2fe7c97d37a",
-//   deadline: "2020-10-01T00:00:00.000Z",
-//   createdAt: "2023-10-15T18:07:47.616Z",
-//   updatedAt: "2023-10-15T18:07:47.616Z",
-// }];
+import {useRouter} from "next/navigation"
 export default function Tasks() {
   const dispatch = useDispatch();
   let tasks = [];
   let taskJsx;
   const api = useApiAuth();
+  const router = useRouter()
+  if(!localStorage.getItem("token")){
 
+    router.push("/login")
+  }
+  
   const { isLoading, data, error, refetch } = useQuery(
     "tasks",
     async () => await api.get("/tasks/task")
