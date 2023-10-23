@@ -60,12 +60,12 @@ const router = useRouter()
               <>
                 <li className="nav-item">
                   <Link className="nav-link" href="./user">
-                    user
+                    Profile
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" href="./tasks">
-                    tasks
+                    Tasks
                   </Link>
                 </li>
                 <li className="nav-item">
