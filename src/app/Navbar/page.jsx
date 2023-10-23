@@ -1,17 +1,19 @@
 "use client";
 import Link from 'next/link';
 import React, { useContext } from 'react';
-import { tokenContext } from '../context/tokenContext';
-import { redirect } from 'next/navigation'
+import { tokenContext } from '../../context/tokenContext';
 import "bootstrap/dist/js/bootstrap"
+import {useRouter} from "next/navigation"
+
 export default function Navbar() {
   let { token, setToken } = useContext(tokenContext);
+const router = useRouter()
 
   function logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("data")
     setToken(null);
-    redirect("/login")
+    router.push("/login")
   }
 
   return (
@@ -41,6 +43,9 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <Link className="nav-link" href='./tasks'>tasks</Link>
+              </li>
+              <li className="nav-item">
+              <button className="nav-link" onClick={logout}>Logout</button>
             </li>
             </>}
           </ul>
