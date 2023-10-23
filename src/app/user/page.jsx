@@ -27,15 +27,15 @@ export default function User() {
   // Function to update user data
   const updateUser = (values, actions) => {
     let id = JSON.parse(localStorage.getItem("data"))._id;
+    const data = JSON.parse(localStorage.getItem("data"));
     const updatedAge = parseInt(values.age, 10);
     userData = {
       userName: values.userName,
-      email: values.email,
       age: updatedAge,
   };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
     fetchData({...userData },id);
-    localStorage.setItem('data', JSON.stringify(userData));
+    localStorage.setItem('data', JSON.stringify({...data,...userData}));
     console.log(values);
     setIsEditing(false);
     actions.setSubmitting(false); 
