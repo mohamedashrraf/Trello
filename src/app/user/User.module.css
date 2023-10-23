@@ -1,3 +1,104 @@
-.u{
-    color:brown;
+
+  @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap');
+
+.userProfile{
+	border-radius: 10px;
+	width: 100%;
+	padding-top: 20px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
+.avatar img{
+	width: 100px;
+	margin-bottom: 20px;
+}
+.userProfile .text{
+	background-color: #fff;
+	color: #222;
+	text-align: left;
+}
+.userProfile .text h4:first-child{
+	padding-top: 20px;
+}
+.userProfile .text h4{
+	padding: 10px 22px 15px 30px;
+	font-size: 18px;
+}
+.userProfile .text h4:last-child{
+	padding-bottom: 20px;
+	margin: 0;
+}
+.userProfile .text h4 span{
+	font-weight: bold;
+  font-family: 'Berkshire Swash', serif;
+}
+.userProfile button{
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #28792a;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+}
+.userProfile button:hover{
+	background: #1d6e20;
+  
+}
+/* start form  */
+.loginForm {
+  font-family: 'Berkshire Swash', serif;
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+
+}
+.form {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  color: white;
+  background: #138a70;
+  background: -webkit-linear-gradient(to right, #350e0b, #8a1341);
+  background: linear-gradient(to right, #662678, #8a6413);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #28792a;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #1d6e20;
+}
+
+/* end form  */

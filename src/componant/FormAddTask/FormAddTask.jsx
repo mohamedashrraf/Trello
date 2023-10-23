@@ -50,6 +50,7 @@ export default function FormAddTask({}) {
               reset();
             })}
           >
+          <h2 className="pb-3 text-center">Add Task</h2>
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 Title

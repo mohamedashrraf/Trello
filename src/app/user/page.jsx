@@ -3,12 +3,13 @@ import React, { useContext, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from '../../context/userContext';
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation"
+import styles from "./User.module.css";
 export default function User() {
   const router = useRouter()
-  const { user,setUser,fetchData } = useContext(UserContext);
+  const { user, setUser, fetchData } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
-  if(!localStorage.getItem("token")){
+  if (!localStorage.getItem("token")) {
 
     router.push("/login")
   }
@@ -26,25 +27,25 @@ export default function User() {
 
   // Function to update user data
   const updateUser = (values, actions) => {
+    actions.setSubmitting(true);
     let id = JSON.parse(localStorage.getItem("data"))._id;
     const data = JSON.parse(localStorage.getItem("data"));
     const updatedAge = parseInt(values.age, 10);
     userData = {
       userName: values.userName,
       age: updatedAge,
-  };
+    };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
-    fetchData({...userData },id);
-    localStorage.setItem('data', JSON.stringify({...data,...userData}));
+    fetchData({ ...userData }, id);
+    localStorage.setItem('data', JSON.stringify({ ...data, ...userData }));
     console.log(values);
     setIsEditing(false);
-    actions.setSubmitting(false); 
     //Call when the update is complete to enable the button.
   };
 
   return (
-    <div className='container'>
-      <div className='col-md-4 text-center mx-auto'>
+    <div className="container">
+      <div className="col-md-4  mx-auto mt-5">
         {isEditing ? (
           <Formik
             initialValues={{
@@ -55,47 +56,71 @@ export default function User() {
             validationSchema={validationSchema}
             onSubmit={updateUser}
           >
-            {({ isSubmitting }) => (
-              <Form>
-                <div className="form-group">
-                  <img src="../../../public/images/avatar.jpg" alt="Trello" width={"100px"} />
-                  <ErrorMessage name="avatar" component="div" className="text-danger" />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="userName">User Name</label>
-                  <Field type="text" name="userName" className="form-control" />
-                  <ErrorMessage name="userName" component="div" className="text-danger" />
-                </div>
+            {({ isSubmitting ,handleSubmit }) => (
+              <div className={styles.loginForm}>
+                <div className={styles.form}>
+                  <form className={styles.registerForm} onSubmit={handleSubmit}>
+                    <h2 className="text-center pb-2">Edit</h2>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        name="userName"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="userName"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                {/* <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <Field type="text" name="email" className="form-control" />
-                  <ErrorMessage name="email" component="div" className="text-danger" />
-                </div> */}
+                    <div className="form-group">
+                      <Field type="text" name="age" className="form-control" />
+                      <ErrorMessage
+                        name="age"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="age">Age</label>
-                  <Field type="text" name="age" className="form-control" />
-                  <ErrorMessage name="age" component="div" className="text-danger" />
+                    <button
+                      type="submit"
+                      className="btn btn-outline-success"
+                      disabled={isSubmitting}
+                    >
+                      Save
+                    </button>
+                  </form>
                 </div>
-
-                <button type="submit" className="btn btn-outline-success" disabled={isSubmitting}>
-                  Save
-                </button>
-              </Form>
+              </div>
             )}
           </Formik>
         ) : (
-          <>
-            <h1 className={`text-center`}>{userData?.userName}</h1>
-            <h2 className={``}>{userData?.email}</h2>
-            <h2 className={``}>{userData?.age}</h2>
-          </>
+          <div className={styles.userProfile}>
+            <div className={styles.avatar}>
+              <img src="/images/ava.png" />
+            </div>
+            <div className={styles.text}>
+              <h4 className={``}>
+                <span>Username : </span>
+                {userData.userName}
+              </h4>
+              <h4 className={``}>
+                <span>Email : </span>
+                {userData.email}
+              </h4>
+              <h4 className={``}>
+                <span>Age : </span>
+                {userData.age}
+              </h4>
+            </div>
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              {isEditing ? "Cancel" : "Edit"}
+            </button>
+          </div>
         )}
-
-        <button className='btn btn-outline-success' onClick={() => setIsEditing(!isEditing)}>
-          {isEditing ? 'Cancel' : 'Edit'}
-        </button>
       </div>
     </div>
   );

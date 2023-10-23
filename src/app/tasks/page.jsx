@@ -38,7 +38,6 @@ export default function Tasks() {
         return (
           <div className="container"  key={task._id}>
             <div className="row">
-            <div className="col-md-3"></div>
               <div className="col-md-6 mt-5">
                 <div className={styles.deletedTask}>
                   <Task
@@ -48,7 +47,6 @@ export default function Tasks() {
                     refetch={refetch}
                   />
                 </div>
-                <div className="col-md-3"></div>
               </div>
             </div>
           </div>
