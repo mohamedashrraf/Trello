@@ -1,17 +1,19 @@
 "use client";
 import { useForm } from "react-hook-form";
 import {useApi} from "../../../hooks/api";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 import styles from "./signUp.module.css";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+
+
 export default function Signup() {
   const api = useApi();
 
 
   const [isLoading, setLoading] = useState(false);
   const submitHandler = async (reqData) => {
-    const router =useRouter()
+  const router = useRouter()
     try {
       setLoading(true);
       const res = await api.post("users/signUp", reqData);
