@@ -1,6 +1,6 @@
 "use client";
 import React, { use, useEffect } from "react";
-import Task from "../../componant/Task/task";
+import Task from "@/componant/Task/Task";
 import { useApiAuth } from "../../../hooks/api";
 import { useQuery } from "react-query";
 import FormAddTask from "@/componant/FormAddTask/FormAddTask";
@@ -10,16 +10,21 @@ import styles from "./tsking.module.css";
 import { useDispatch } from "react-redux";
 import {useRouter} from "next/navigation"
 export default function Tasks() {
-  if(typeof window === "undefined")return<h1></h1>
   const dispatch = useDispatch();
   let tasks = [];
   let taskJsx;
+
   const api = useApiAuth();
   const router = useRouter()
-  if(!localStorage?.getItem("token")){
+useEffect(()=>{
 
+  if(!localStorage?.getItem("token")){
+  
     router.push("/login")
   }
+})
+
+  
   
   const { isLoading, data, error, refetch } = useQuery(
     "tasks",
