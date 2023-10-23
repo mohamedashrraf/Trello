@@ -9,12 +9,15 @@ export default function User() {
   const router = useRouter()
   const { user, setUser, updateUser,deleteUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
+  let userData
+  useEffect(()=>{
 
-  if (typeof window !== "undefined"&&!localStorage?.getItem("token")) {
-    router.push("/login")
-  }
+    if (!localStorage?.getItem("token")) {
+      router.push("/login")
+    }
+    userData= JSON.parse(localStorage?.getItem("data"));
+  },[])
 
-  let userData = JSON.parse(typeof window !== "undefined"??localStorage?.getItem("data"));
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required').min(5).max(30),
@@ -23,9 +26,12 @@ export default function User() {
 
   const confirmUpdate = (values, actions) => {
     actions.setSubmitting(true);
-  
-    let id = typeof window !== "undefined"??JSON.parse(typeof window !== "undefined"??localStorage?.getItem("data"))._id;
-    const data = typeof window !== "undefined"??JSON.parse(typeof window !== "undefined"??localStorage?.getItem("data"));
+    let id
+    let data
+    useEffect(()=>{
+      id = JSON.parse(localStorage?.getItem("data"))._id;
+      data = JSON.parse(localStorage?.getItem("data"));
+    })
     const updatedAge = parseInt(values.age, 10);
     userData = {
       userName: values.userName,
@@ -33,10 +39,11 @@ export default function User() {
     };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
     updateUser({ ...userData }, id);
-    if(typeof window !== "undefined"){
+    useEffect(()=>{
+
 
       localStorage?.setItem('data', JSON.stringify({ ...data, ...userData }));
-    }
+    })
     console.log(values);
     setIsEditing(false);
     //Call when the update is complete to enable the button.
