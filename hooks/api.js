@@ -7,9 +7,10 @@ export function useApi() {
 }
 export function useApiAuth() {
     
+    
     return axios.create({
         baseURL: url, headers: {
-            Authorization: localStorage.getItem('token')
+            Authorization:typeof window !== "undefined"&& localStorage?.getItem('token')
         }
     })
 
