@@ -7,26 +7,21 @@ import { useRouter } from "next/navigation"
 import styles from "./User.module.css";
 export default function User() {
   const router = useRouter()
-  const { user, setUser, fetchData } = useContext(UserContext);
+  const { user, setUser, updateUser,deleteUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
-  if (!localStorage.getItem("token")) {
 
+  if (!localStorage.getItem("token")) {
     router.push("/login")
   }
-  // You can retrieve the userData from local storage here
+
   let userData = JSON.parse(localStorage.getItem("data"));
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required').min(5).max(30),
-    // email: Yup.string().email('Invalid email').required('Email is required').matches(
-    //     /^.+@.+\.(com|net|lol)$/,
-    //     "Not accepted email should end with com or net or lol"
-    //   ),
     age: Yup.number().typeError('Age must be a number').required('Age is required').min(18).max(60),
   });
 
-  // Function to update user data
-  const updateUser = (values, actions) => {
+  const confirmUpdate = (values, actions) => {
     actions.setSubmitting(true);
     let id = JSON.parse(localStorage.getItem("data"))._id;
     const data = JSON.parse(localStorage.getItem("data"));
@@ -36,11 +31,21 @@ export default function User() {
       age: updatedAge,
     };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
-    fetchData({ ...userData }, id);
+    updateUser({ ...userData }, id);
     localStorage.setItem('data', JSON.stringify({ ...data, ...userData }));
     console.log(values);
     setIsEditing(false);
     //Call when the update is complete to enable the button.
+  };
+
+ const confirmDelete = () => {
+    const confirmDeletion = window.confirm("Are you sure you want to delete your account?");
+    if (confirmDeletion) {
+      deleteUser(userData._id);
+      localStorage.removeItem("token");
+      localStorage.removeItem("data");
+      router.push("/login"); // Redirect to the login page after deleting the account.
+    }
   };
 
   return (
@@ -54,7 +59,7 @@ export default function User() {
               age: userData?.age,
             }}
             validationSchema={validationSchema}
-            onSubmit={updateUser}
+            onSubmit={confirmUpdate}
           >
             {({ isSubmitting ,handleSubmit }) => (
               <div className={styles.loginForm}>
@@ -96,20 +101,21 @@ export default function User() {
             )}
           </Formik>
         ) : (
+            <>
           <div className={styles.userProfile}>
             <div className={styles.avatar}>
               <img src="/images/ava.png" />
             </div>
             <div className={styles.text}>
-              <h4 className={``}>
+              <h4>
                 <span>Username : </span>
                 {userData.userName}
               </h4>
-              <h4 className={``}>
+              <h4>
                 <span>Email : </span>
                 {userData.email}
               </h4>
-              <h4 className={``}>
+              <h4>
                 <span>Age : </span>
                 {userData.age}
               </h4>
@@ -118,8 +124,14 @@ export default function User() {
               onClick={() => setIsEditing(!isEditing)}
             >
               {isEditing ? "Cancel" : "Edit"}
+              </button>             
+              </div>
+              <button className={`${styles.delete} btn btn-danger mx-auto`}
+              onClick={confirmDelete}
+            >
+              Delete Account
             </button>
-          </div>
+          </>
         )}
       </div>
     </div>
