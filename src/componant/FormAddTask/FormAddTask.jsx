@@ -16,13 +16,17 @@ export default function FormAddTask({}) {
     });
   };
   const { mutate, error, data: serverData } = mutation();
-  const defaultValues = {
-    title: "",
-    description: "",
-    userId: userId,
-    assignTo: userId,
-    deadline: "",
-  };
+  let defaultValues
+
+
+     defaultValues = {
+      title: String(""),
+      description: "",
+      userId: String(userId) ,
+      assignTo: String(userId) ,
+      deadline: "",
+    };
+
 
   const {
     register,
@@ -40,8 +44,8 @@ export default function FormAddTask({}) {
           <form
           className={styles.newForm}
             onSubmit={handleSubmit((data) => {
-              console.log(data);
-              console.log(defaultValues);
+              // console.log(data);
+              // console.log(defaultValues);
               mutate(data);
               reset();
             })}

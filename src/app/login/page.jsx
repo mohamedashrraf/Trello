@@ -15,11 +15,11 @@ import { useRouter } from "next/navigation"
 export default function Login() {
   const api = useApi();
   const router = useRouter()
-  let { setToken } = useContext(tokenContext);
+  const submitInput = document.getElementById("submitInput")
   const [isLoading, setLoading] = useState(false);
-
-
-  const googleLogin = async (data) => { 
+  let { setToken } = useContext(tokenContext);
+  const PasswordErr = document.getElementById("PasswordErr")
+  const googleLogin = async (data) => {
     try {
       const res = await api.post("users/google_login", data);
       console.log(res.data);
@@ -27,8 +27,8 @@ export default function Login() {
       localStorage.setItem("data", JSON.stringify(res.data.data))
       setToken(res.data.token);
       router.push("/user")
-    console.log("user")  
-      
+      console.log("user")
+
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +66,9 @@ export default function Login() {
       try {
         setLoading(true);
         const res = await api.post("users/login", data);
+        if(res.data.message== 'password is rong'){
+          PasswordErr.innerText = 'password is rong'
+        }
         console.log(res.data);
         setLoading(false);
         localStorage.setItem("token", res.data.token)
@@ -73,6 +76,7 @@ export default function Login() {
         setToken(res.data.token);
         router.push('/user');
       } catch (error) {
+        
         console.log(error);
         setLoading(false);
 
@@ -137,6 +141,7 @@ export default function Login() {
                   Password
                 </label>
                 <div>
+                  <p className="text-danger" id="PasswordErr"></p>
                   {formik.touched?.password && <p className="text-danger"> {formik.errors?.password}</p>}
                 </div>
               </div>

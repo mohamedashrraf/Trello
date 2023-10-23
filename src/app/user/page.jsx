@@ -3,12 +3,16 @@ import React, { useContext, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from '../../context/userContext';
-
+import {useRouter} from "next/navigation"
 export default function User() {
+  const router = useRouter()
   const { user,setUser,fetchData } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
+  if(!localStorage.getItem("token")){
 
-  // retrieve the userData from local storage
+    router.push("/login")
+  }
+  // You can retrieve the userData from local storage here
   let userData = JSON.parse(localStorage.getItem("data"));
 
   const validationSchema = Yup.object().shape({
@@ -23,15 +27,15 @@ export default function User() {
   // Function to update user data
   const updateUser = (values, actions) => {
     let id = JSON.parse(localStorage.getItem("data"))._id;
+    const data = JSON.parse(localStorage.getItem("data"));
     const updatedAge = parseInt(values.age, 10);
     userData = {
       userName: values.userName,
-      email: values.email,
       age: updatedAge,
   };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
     fetchData({...userData },id);
-    localStorage.setItem('data', JSON.stringify(userData));
+    localStorage.setItem('data', JSON.stringify({...data,...userData}));
     console.log(values);
     setIsEditing(false);
     actions.setSubmitting(false); 
@@ -44,9 +48,9 @@ export default function User() {
         {isEditing ? (
           <Formik
             initialValues={{
-              userName: userData.userName,
-              email: userData.email,
-              age: userData.age,
+              userName: userData?.userName,
+              email: userData?.email,
+              age: userData?.age,
             }}
             validationSchema={validationSchema}
             onSubmit={updateUser}
@@ -83,9 +87,9 @@ export default function User() {
           </Formik>
         ) : (
           <>
-            <h1 className={`text-center`}>{userData.userName}</h1>
-            <h2 className={``}>{userData.email}</h2>
-            <h2 className={``}>{userData.age}</h2>
+            <h1 className={`text-center`}>{userData?.userName}</h1>
+            <h2 className={``}>{userData?.email}</h2>
+            <h2 className={``}>{userData?.age}</h2>
           </>
         )}
 

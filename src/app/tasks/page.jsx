@@ -29,13 +29,14 @@ export default function Tasks() {
     await api.delete(`/tasks/task/${id}`);
     refetch();
   };
-  if (data) {
+  if (data?.data?.data) {
     tasks = data.data.data;
-    if (tasks.length == 0) {
+    if (tasks?.length == 0) {
     } else {
       taskJsx = tasks.map((task) => {
+        // console.log(task)
         return (
-          <div className="container">
+          <div className="container"  key={task._id}>
             <div className="row">
             <div className="col-md-3"></div>
               <div className="col-md-6 mt-5">
@@ -62,7 +63,10 @@ export default function Tasks() {
         <div className="row">
           <div>
             <FormAddTask refetch={refetch} />
+            <div className="d-flex flex-column-reverse">
+
             {isLoading || (data && taskJsx)}
+            </div>
           </div>
         </div>
       </div>

@@ -45,7 +45,9 @@ const router = useRouter()
               <Link className="nav-link" href='./tasks'>tasks</Link>
               </li>
               <li className="nav-item">
-              <button className="nav-link" onClick={logout}>Logout</button>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link " onClick={(e)=>{e.preventDefault(); logout()}} style={{cursor:"pointer"}} >logout</a>
             </li>
             </>}
           </ul>
