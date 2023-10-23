@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
@@ -7,15 +7,16 @@ import { useApi } from "../../../hooks/api";
 import { Fragment } from "react";
 import Link from "next/link";
 import { tokenContext } from '../../context/tokenContext'
-import { redirect } from 'next/navigation'
 import { GoogleLogin } from '@react-oauth/google';
 import { useRouter } from "next/navigation"
+
 
 
 export default function Login() {
   const api = useApi();
   const router = useRouter()
   const submitInput = document.getElementById("submitInput")
+  const [isLoading, setLoading] = useState(false);
   let { setToken } = useContext(tokenContext);
   const PasswordErr = document.getElementById("PasswordErr")
   const googleLogin = async (data) => {
@@ -63,24 +64,22 @@ export default function Login() {
     validateOnBlur: true,
     onSubmit: async (data) => {
       try {
-        submitInput.disabled = true
-        submitInput.classList.add("spinner-grow")
+        setLoading(true);
         const res = await api.post("users/login", data);
-        console.log(res.data);
         if(res.data.message== 'password is rong'){
           PasswordErr.innerText = 'password is rong'
         }
+        console.log(res.data);
+        setLoading(false);
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("data", JSON.stringify(res.data.data))
         setToken(res.data.token);
-
         router.push('/user');
       } catch (error) {
         
         console.log(error);
-      }finally{
-        submitInput.classList.remove("spinner-grow")
-        submitInput.disabled = false
+        setLoading(false);
+
       }
     },
   });
@@ -151,8 +150,7 @@ export default function Login() {
                   name="submit"
                   type="Submit"
                   className={styles.sub}
-                  id="submitInput"
-                >Login</button>
+                >{isLoading? <i className='fa fa-spin fa-spinner'></i>:<><i className='fa fa-edit'></i>Login</>}</button>
               </div>
               <div>
                 <div className={styles.signup_link}>

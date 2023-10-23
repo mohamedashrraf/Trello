@@ -2,21 +2,18 @@
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import { tokenContext } from '../../context/tokenContext';
-import { useRouter } from 'next/navigation'
 import "bootstrap/dist/js/bootstrap"
-import { googleLogout } from '@react-oauth/google';
-
+import {useRouter} from "next/navigation"
 
 export default function Navbar() {
   let { token, setToken } = useContext(tokenContext);
-  const router =useRouter()
-  const logout = (e)=>{
-    
+const router = useRouter()
+
+  function logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("data")
     setToken(null);
     router.push("/login")
-   
   }
 
   return (
@@ -46,6 +43,9 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <Link className="nav-link" href='./tasks'>tasks</Link>
+              </li>
+              <li className="nav-item">
+              <button className="nav-link" onClick={logout}>Logout</button>
             </li>
             <li className="nav-item">
               <a className="nav-link " onClick={(e)=>{e.preventDefault(); googleLogout();logout()}} style={{cursor:"pointer"}} >logout</a>

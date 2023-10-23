@@ -4,29 +4,27 @@ import {useApi} from "../../../hooks/api";
 import { useRouter } from "next/navigation";
 import styles from "./signUp.module.css";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 export default function Signup() {
   const api = useApi();
   const submitInput = document.getElementById("submitInput")
   const errorsEmail = document.getElementById("errorsEmail")
+  const [isLoading, setLoading] = useState(false);
   const submitHandler = async (reqData) => {
     const router =useRouter()
     try {
-      submitInput.disabled = true
-      errorsEmail.innerText = ""
-      submitInput.classList.add("spinner-grow")
+      setLoading(true);
       const res = await api.post("users/signUp", reqData);
       console.log(res.data);
+      setLoading(false);
       router.push("/login");
     } catch (error) {
+      setLoading(false);
       if(error.response?.data?.message == "email is unique"){
         console.log("email is unique")
         errorsEmail.innerText = "email is used"
       }
       console.log(error);
-    }finally{
-      submitInput.classList.remove("spinner-grow")
-      submitInput.disabled = false
     }
   };
   const defaultValues = {
@@ -249,14 +247,9 @@ export default function Signup() {
                 </div>
               </div>
               <div>
-              <input
-                name="submit"
-                type="Submit"
-                className={styles.sub}
-                defaultValue="Sign Up"
-                id="submitInput"
-                
-              />
+                <button
+                  name="submit" type="Submit" className={styles.sub}
+                >{isLoading? <i className='fa fa-spin fa-spinner'></i>:<><i className='fa fa-edit'></i>signUp</>}</button>
             </div>
             <div>
               <div className={styles.signup_link}>
