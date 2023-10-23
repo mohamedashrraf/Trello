@@ -104,7 +104,7 @@ export default function User() {
             <>
           <div className={styles.userProfile}>
             <div className={styles.avatar}>
-              <img src="/images/ava.png" />
+              <img src="/images/avatar.jpg" />
             </div>
             <div className={styles.text}>
               <h4>
