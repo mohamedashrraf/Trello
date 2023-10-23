@@ -10,7 +10,7 @@ export default function User() {
   const { user, setUser, updateUser,deleteUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
 
-  if (!localStorage?.getItem("token")) {
+  if (typeof window !== "undefined"&&!localStorage?.getItem("token")) {
     router.push("/login")
   }
 
@@ -33,7 +33,10 @@ export default function User() {
     };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
     updateUser({ ...userData }, id);
-    localStorage?.setItem('data', JSON.stringify({ ...data, ...userData }));
+    if(typeof window !== "undefined"){
+
+      localStorage?.setItem('data', JSON.stringify({ ...data, ...userData }));
+    }
     console.log(values);
     setIsEditing(false);
     //Call when the update is complete to enable the button.
@@ -43,8 +46,11 @@ export default function User() {
     const confirmDeletion = window.confirm("Are you sure you want to delete your account?");
     if (confirmDeletion) {
       deleteUser(userData._id);
-      localStorage?.removeItem("token");
-      localStorage?.removeItem("data");
+      if(typeof window !== "undefined"){
+
+        localStorage?.removeItem("token");
+        localStorage?.removeItem("data");
+      }
       router.push("/login"); // Redirect to the login page after deleting the account.
     }
   };
