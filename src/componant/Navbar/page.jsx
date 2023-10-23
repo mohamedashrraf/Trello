@@ -45,7 +45,7 @@ const router = useRouter()
                 Home
               </Link>
             </li>
-            {!localStorage?.getItem("data") && (
+            {typeof window !== "undefined"&&!localStorage?.getItem("data") && (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" href="./login">
@@ -59,7 +59,7 @@ const router = useRouter()
                 </li>
               </>
             )}
-            {!localStorage?.getItem("data") || (
+            {typeof window !== "undefined"&&!localStorage?.getItem("data") || (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" href="./user">

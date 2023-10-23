@@ -10,6 +10,7 @@ import styles from "./tsking.module.css";
 import { useDispatch } from "react-redux";
 import {useRouter} from "next/navigation"
 export default function Tasks() {
+  if(typeof window === "undefined")return<h1></h1>
   const dispatch = useDispatch();
   let tasks = [];
   let taskJsx;
