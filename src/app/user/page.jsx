@@ -31,7 +31,7 @@ export default function User() {
     useEffect(()=>{
       id = JSON.parse(localStorage?.getItem("data"))._id;
       data = JSON.parse(localStorage?.getItem("data"));
-    })
+    },[])
     const updatedAge = parseInt(values.age, 10);
     userData = {
       userName: values.userName,
@@ -43,7 +43,7 @@ export default function User() {
 
 
       localStorage?.setItem('data', JSON.stringify({ ...data, ...userData }));
-    })
+    },[])
     console.log(values);
     setIsEditing(false);
     //Call when the update is complete to enable the button.
@@ -123,15 +123,15 @@ export default function User() {
             <div className={styles.text}>
               <h4>
                 <span>Username : </span>
-                {userData.userName}
+                {userData?.userName}
               </h4>
               <h4>
                 <span>Email : </span>
-                {userData.email}
+                {userData?.email}
               </h4>
               <h4>
                 <span>Age : </span>
-                {userData.age}
+                {userData?.age}
               </h4>
             </div>
             <button
