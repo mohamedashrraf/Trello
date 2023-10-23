@@ -15,7 +15,7 @@ export default function Tasks() {
   let taskJsx;
   const api = useApiAuth();
   const router = useRouter()
-  if(!localStorage.getItem("token")){
+  if(!localStorage?.getItem("token")){
 
     router.push("/login")
   }
