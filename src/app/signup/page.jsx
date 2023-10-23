@@ -78,7 +78,7 @@ export default function Signup() {
                 />
                 <span></span>
                 <label htmlFor="inputUserName" className="form-label ">
-                User Name
+                Username
               </label>
                 <div>
                   <p className="text-danger"  >{errors.userName?.message}</p>
@@ -109,7 +109,7 @@ export default function Signup() {
                 />
                 <span></span>
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                Email address
+                Email
               </label>
                 <div>
                   <p className="text-danger" id="errorsEmail">{errors.email?.message}</p>
@@ -155,7 +155,7 @@ export default function Signup() {
                 />
                 <span></span>
                 <label htmlFor="inputPhone" className="form-label">
-                Phone numper
+                Phone
               </label>
                 <div>
                   <p className="text-danger">{errors.phone?.message}</p>

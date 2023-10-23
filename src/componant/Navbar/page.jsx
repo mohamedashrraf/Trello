@@ -51,7 +51,7 @@ const router = useRouter()
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" href="./signup">
-                    Sign Up
+                    Signup
                   </Link>
                 </li>
               </>

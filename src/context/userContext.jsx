@@ -8,7 +8,7 @@ const UserContextProvider = ({ children, id }) => {
   const [user, setUser] = useState(null);
 
   
-    async function fetchData(data,id) {
+    async function updateUser(data,id) {
       try {
         const response = await axios.patch(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
           data,
@@ -23,10 +23,25 @@ const UserContextProvider = ({ children, id }) => {
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
-    }  
+  }
+  
+  async function deleteUser(id) {
+      try {
+        await axios.delete(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
+          {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
+        console.log("Successfully Deleted");
+        setUser(null);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+  }
 
   return (
-    <UserContext.Provider value={{ user, setUser, fetchData}}>
+    <UserContext.Provider value={{ user, setUser, updateUser,deleteUser}}>
       {children}
     </UserContext.Provider>
   );
