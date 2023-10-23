@@ -15,16 +15,17 @@ import { useRouter } from "next/navigation"
 export default function Login() {
   const api = useApi();
   const router = useRouter()
-  const submitInput = document.getElementById("submitInput")
   const [isLoading, setLoading] = useState(false);
   let { setToken } = useContext(tokenContext);
-  const PasswordErr = document.getElementById("PasswordErr")
   const googleLogin = async (data) => {
     try {
       const res = await api.post("users/google_login", data);
       console.log(res.data);
-      localStorage.setItem("token", res.data.token)
-      localStorage.setItem("data", JSON.stringify(res.data.data))
+      if(typeof window !== "undefined"){
+
+        localStorage?.setItem("token", res.data.token)
+        localStorage?.setItem("data", JSON.stringify(res.data.data))
+      }
       setToken(res.data.token);
       router.push("/user")
       console.log("user")
@@ -71,8 +72,11 @@ export default function Login() {
         }
         console.log(res.data);
         setLoading(false);
-        localStorage.setItem("token", res.data.token)
-        localStorage.setItem("data", JSON.stringify(res.data.data))
+        if(typeof window !== "undefined"){
+
+          localStorage?.setItem("token", res.data.token)
+          localStorage?.setItem("data", JSON.stringify(res.data.data))
+        }
         setToken(res.data.token);
         router.push('/user');
       } catch (error) {

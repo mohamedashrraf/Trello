@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import { tokenContext } from '../../context/tokenContext';
-import "bootstrap/dist/js/bootstrap"
+// import "bootstrap/dist/js/bootstrap"
 import {useRouter} from "next/navigation"
 import styles from './Navbar.module.css'
 
@@ -11,8 +11,11 @@ export default function Navbar() {
 const router = useRouter()
 
   function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("data");
+    if(typeof window !== "undefined"){
+
+      localStorage?.removeItem("token");
+      localStorage?.removeItem("data");
+    }
     setToken(null);
     router.push("/login")
   }
@@ -42,7 +45,7 @@ const router = useRouter()
                 Home
               </Link>
             </li>
-            {!localStorage.getItem("data") && (
+            {typeof window !== "undefined"&&!localStorage?.getItem("data") && (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" href="./login">
@@ -56,7 +59,7 @@ const router = useRouter()
                 </li>
               </>
             )}
-            {!localStorage.getItem("data") || (
+            {typeof window !== "undefined"&&!localStorage?.getItem("data") || (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" href="./user">

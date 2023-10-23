@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import style from "./footer.module.css";
 import Link from "next/link";

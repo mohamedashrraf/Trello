@@ -9,8 +9,8 @@ import { Fragment, useState } from "react";
 
 export default function Signup() {
   const api = useApi();
-  const submitInput = document.getElementById("submitInput")
-  const errorsEmail = document.getElementById("errorsEmail")
+
+
   const [isLoading, setLoading] = useState(false);
   const submitHandler = async (reqData) => {
   const router = useRouter()
@@ -24,7 +24,7 @@ export default function Signup() {
       setLoading(false);
       if(error.response?.data?.message == "email is unique"){
         console.log("email is unique")
-        errorsEmail.innerText = "email is used"
+        
       }
       console.log(error);
     }
