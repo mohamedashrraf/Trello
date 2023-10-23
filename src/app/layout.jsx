@@ -2,7 +2,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "../componant/Navbar/page";
-import Footer from "./Footer/page";
+import Footer from "../componant/Footer/page";
 import ReactQuery from "@/componant/provider/ReactQuery/ReactQuery";
 import Redux from "@/componant/provider/Redux/Redux";
 import TokenContextProvider from '../context/tokenContext';

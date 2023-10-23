@@ -7,14 +7,14 @@ export const UserContext = createContext();
 const UserContextProvider = ({ children, id }) => {
   const [user, setUser] = useState(null);
 
-  
+
     async function updateUser(data,id) {
       try {
         const response = await axios.patch(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
           data,
           {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: typeof window !== "undefined"?? localStorage?.getItem("token"),
           },
         });
         const userData = response.data;
@@ -30,7 +30,7 @@ const UserContextProvider = ({ children, id }) => {
         await axios.delete(`https://trello-app-api-n2zs.onrender.com/api/v1/users/user/${id}`,
           {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization:typeof window !== "undefined"?? localStorage?.getItem("token"),
           },
         });
         console.log("Successfully Deleted");

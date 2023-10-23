@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from '../../context/userContext';
@@ -10,11 +10,11 @@ export default function User() {
   const { user, setUser, updateUser,deleteUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
 
-  if (!localStorage.getItem("token")) {
+  if (!localStorage?.getItem("token")) {
     router.push("/login")
   }
 
-  let userData = JSON.parse(localStorage.getItem("data"));
+  let userData = JSON.parse(typeof window !== "undefined"??localStorage?.getItem("data"));
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required').min(5).max(30),
@@ -23,8 +23,9 @@ export default function User() {
 
   const confirmUpdate = (values, actions) => {
     actions.setSubmitting(true);
-    let id = JSON.parse(localStorage.getItem("data"))._id;
-    const data = JSON.parse(localStorage.getItem("data"));
+  
+    let id = typeof window !== "undefined"??JSON.parse(typeof window !== "undefined"??localStorage?.getItem("data"))._id;
+    const data = typeof window !== "undefined"??JSON.parse(typeof window !== "undefined"??localStorage?.getItem("data"));
     const updatedAge = parseInt(values.age, 10);
     userData = {
       userName: values.userName,
@@ -32,7 +33,7 @@ export default function User() {
     };
     // Here you can implement logic to update the user data, e.g., save it back to local storage.
     updateUser({ ...userData }, id);
-    localStorage.setItem('data', JSON.stringify({ ...data, ...userData }));
+    localStorage?.setItem('data', JSON.stringify({ ...data, ...userData }));
     console.log(values);
     setIsEditing(false);
     //Call when the update is complete to enable the button.
@@ -42,8 +43,8 @@ export default function User() {
     const confirmDeletion = window.confirm("Are you sure you want to delete your account?");
     if (confirmDeletion) {
       deleteUser(userData._id);
-      localStorage.removeItem("token");
-      localStorage.removeItem("data");
+      localStorage?.removeItem("token");
+      localStorage?.removeItem("data");
       router.push("/login"); // Redirect to the login page after deleting the account.
     }
   };
